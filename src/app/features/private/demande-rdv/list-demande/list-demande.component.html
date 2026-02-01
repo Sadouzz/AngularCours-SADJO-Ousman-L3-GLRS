@@ -1,7 +1,9 @@
 <div class="container-fluid py-4">
     <div class="row mb-4">
         <div class="col-12">
-            <h1 class="h2 fw-bold text-dark mb-2">Mes Rendez-vous</h1>
+            <h1 class="h2 fw-bold text-dark mb-2">
+                {{title}}
+            </h1>
             <p class="text-muted">Consultez toutes vos demandes de rendez-vous</p>
         </div>
     </div>
@@ -106,54 +108,36 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @for($demandes of demandes; track $demandes.id)
+                        {
                         <tr>
-                            <td><strong>DRV001</strong></td>
-                            <td>25/01/2026</td>
-                            <td>09:00</td>
+                            <td><strong>{{ $demandes.id }}</strong></td>
+                            <td>{{ $demandes.dateDemande }}</td>
+                            <td>{{ $demandes.heure }}</td>
                             <td>Consultation</td>
-                            <td>Cardiologie</td>
+                            <td>{{ $demandes.specialite }}</td>
                             <td>-</td>
-                            <td><span class="badge badge-enattente">En Attente</span></td>
+                            <td><span class="badge badge-warning text-dark">{{ $demandes.statut }}</span></td>
                             <td>
-                                <a routerLink="/detail-rdv/DRV001" class="btn btn-outline-secondary btn-sm">
+                                <a routerLink="/detail-rdv/DRV001" class="btn btn-outline-secondary btn-sm rounded-0">
                                     <i class="bi bi-eye me-1"></i> Détails
                                 </a>
                             </td>
                         </tr>
+                        }
+                        @empty{
                         <tr>
-                            <td><strong>DRV002</strong></td>
-                            <td>26/01/2026</td>
-                            <td>10:30</td>
-                            <td>Prestation</td>
-                            <td>Médecin Généraliste</td>
-                            <td>Radio</td>
-                            <td><span class="badge bg-success">Accepté</span></td>
-                            <td>
-                                <a routerLink="/detail-rdv/DRV002" class="btn btn-outline-secondary btn-sm rounded-0">
-                                    <i class="bi bi-eye me-1"></i> Détails
-                                </a>
+                            <td colspan="5">
+                                Aucune demande
                             </td>
                         </tr>
-                        <tr>
-                            <td><strong>DRV003</strong></td>
-                            <td>27/01/2026</td>
-                            <td>14:00</td>
-                            <td>Consultation</td>
-                            <td>Dentiste</td>
-                            <td>-</td>
-                            <td><span class="badge bg-warning">En Attente</span></td>
-                            <td>
-                                <a routerLink="/detail-rdv/DRV003" class="btn btn-outline-secondary btn-sm rounded-0">
-                                    <i class="bi bi-eye me-1"></i> Détails
-                                </a>
-                            </td>
-                        </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
 
-    
+
         <div class="card-footer bg-white">
             <nav aria-label="Navigation des demandes">
                 <ul class="pagination justify-content-center mb-0">
