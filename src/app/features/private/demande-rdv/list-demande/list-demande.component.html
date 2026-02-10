@@ -58,17 +58,17 @@
                 <div class="col-md-4">
                     <label class="form-label fw-semibold">Statut</label>
                     <select class="form-select" [(ngModel)]="filter.statut" id="filterStatus"
-                        (change)="onFilterStatusChange()">
+                        (change)="onFilterStatusAndSpecialiteChange()">
                         <option value="">Tous les statuts</option>
                         <option value="En attente">En Attente</option>
-                        <option value="Acceptée">Accepté</option>
-                        <option value="Rejetée">Rejeté</option>
+                        <option value="Acceptée">Acceptée</option>
+                        <option value="Refusée">Refusée</option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label fw-semibold">Spécialité</label>
                     <select class="form-select" [(ngModel)]="filter.specialite" id="filterSpecialite"
-                        (change)="onFilterSpecialiteChange()">
+                        (change)="onFilterStatusAndSpecialiteChange()">
                         <option value="">Toutes les spécialités</option>
                         <option value="Cardiologie">Cardiologie</option>
                         <option value="Dermatologie">Dermatologie</option>
@@ -86,7 +86,7 @@
             <h5 class="mb-0"><i class="bi bi-list-check me-2"></i> Mes Demandes de RDV</h5>
         </div>
         <div class="card-body p-0">
-            @if(demandesResponse!=undefined && demandesResponse.data.length > 0){
+            @if(demandesResponse && demandesResponse.data && demandesResponse.data.length > 0){
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <thead class="table-secondary">
@@ -100,26 +100,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for($demandes of demandesResponse?.data; track $demandes.id)
+                        @for(demande of demandesResponse?.data; track demande.id)
                         {
                         <tr>
-                            <!-- <td><strong>{{ $demandes.id }}</strong></td> -->
-                            <td>{{ $demandes.dateDemande }}</td>
-                            <td>{{ $demandes.heure }}</td>
-                            <td>{{ $demandes.specialite }}</td>
+                            <!-- <td><strong>{{ demande.id }}</strong></td> -->
+                            <td>{{ demande.dateDemande }}</td>
+                            <td>{{ demande.heure }}</td>
+                            <td>{{ demande.specialite }}</td>
+                            <!-- <td>
+                                @if(demande.statut === "Acceptée")
+                                {
+                                <span class="badge bg-success">{{ demande.statut }}</span>
+                                }@else if(demande.statut === "Refusée")
+                                {
+                                <span class="badge bg-danger">{{ demande.statut }}</span>
+                                }
+                                @else if(demande.statut === "En attente")
+                                {
+                                <span class="badge bg-warning">{{ demande.statut }}</span>
+                                }
+                            </td> 
                             <td>
-                                @if($demandes.statut === "Acceptée")
-                                {
-                                <span class="badge badge-success text-dark">{{ $demandes.statut }}</span>
-                                }@else if($demandes.statut === "Refusée")
-                                {
-                                <span class="badge badge-danger text-dark">{{ $demandes.statut }}</span>
+                                @switch(demande.statut)
+                                    {
+                                    @case("Acceptée")
+                                    {
+                                    <span class="badge bg-success">{{ demande.statut }}</span>
+                                    }@case("Refusée")
+                                    {
+                                    <span class="badge bg-danger">{{ demande.statut }}</span>
+                                    }
+                                    @case("En attente")
+                                    {
+                                    <span class="badge bg-warning">{{ demande.statut }}</span>
+                                    }
+                                    @default{
+                                    <span class="badge bg-secondary">Inconnu</span>
+                                    }
                                 }
-                                @else if($demandes.statut === "En attente")
-                                {
-                                <span class="badge badge-warning text-dark">{{ $demandes.statut }}</span>
-                                }
+                            </td> -->
+                            <td [ngSwitch]="demande.statut">
+                                <span *ngSwitchCase="'Acceptée'" class="badge bg-success">Acceptée</span>
+                                <span *ngSwitchCase="'En attente'" class="badge bg-warning">En attente</span>
+                                <span *ngSwitchCase="'Refusée'" class="badge bg-danger">Refusée</span>
+                                <span *ngSwitchDefault class="badge bg-secondary">Inconnu</span>
                             </td>
+
                             <td>
                                 <a routerLink="/detail-rdv/DRV001" class="btn btn-outline-secondary btn-sm rounded-0">
                                     <i class="bi bi-eye me-1"></i> Détails
@@ -145,17 +171,17 @@
             <div class="card-footer bg-white">
                 <nav aria-label="Navigation des demandes">
                     <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Précédent">
+                        <li class="page-item" [class.disabled]="inactivePrecedent">
+                            <a class="page-link" (click)="onPageChange(demandesResponse.currentPage - 1)" aria-label="Précédent">
                                 <span aria-hidden="true">&laquo; Précédent</span>
                             </a>
                         </li>
                         @for(indexPage of demandesResponse.pages; track indexPage){
                         <li class="page-item" [class.active]="indexPage === demandesResponse.currentPage"><a
-                                class="page-link" href="#">{{indexPage}}</a></li>
+                                class="page-link" (click)="onPageChange(indexPage)">{{indexPage}}</a></li>
                         }
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Suivant">
+                        <li class="page-item" [class.disabled]="inactiveSuivant">
+                            <a class="page-link" (click)="onPageChange(demandesResponse.currentPage + 1)" aria-label="Suivant">
                                 <span aria-hidden="true">Suivant &raquo;</span>
                             </a>
                         </li>

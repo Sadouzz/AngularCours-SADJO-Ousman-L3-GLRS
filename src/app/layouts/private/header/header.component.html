@@ -40,7 +40,7 @@
                     <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button"
                         data-bs-toggle="dropdown">
                         <i class="bi bi-person-circle me-2"></i>
-                        <span>{{ userName }}</span>
+                        <span>User</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li>
@@ -57,7 +57,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item" routerLink="/private/connexion">
+                            <a class="dropdown-item" (click)="logout()">
                                 <i class="bi bi-box-arrow-right me-2"></i> Déconnexion
                             </a>
                         </li>

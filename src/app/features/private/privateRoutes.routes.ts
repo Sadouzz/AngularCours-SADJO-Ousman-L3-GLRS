@@ -6,12 +6,15 @@ import { DetailConsultationComponent } from '../private/patient/detail-consultat
 import { DossierMedicalComponent } from '../private/patient/dossier-medical/dossier-medical.component';
 import { DetailRdvComponent } from '../private/rdv/detail-rdv/detail-rdv.component';
 import { PrivateComponent } from '../private/private.component';
+import { isConnectGuard } from '../../core/guards/is-connect.guard';
 
 export const privateRoutes: Routes = [
     //private routes
     {
         path: "private",
         component: PrivateComponent,
+        canActivate: [isConnectGuard],
+        canActivateChild: [isConnectGuard],
         children: [
             {
                 path: "",

@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel, SpecialiteModel, StatutDemandeModel } from '../../models/demande.model';
-import { MOCK_DEMANDES } from '../../../../mocks/demande.mock';
+import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
 import { DemandeService } from '../services/demande.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-demande',
-  imports: [RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './list-demande.component.html',
   styleUrl: './list-demande.component.css'
 })
-export class ListDemandeComponent {
+export class ListDemandeComponent implements OnInit, OnDestroy {
   title: string = "Mes Rendez-vous";
 
   demandesResponse?: DemandeListeResponse;
@@ -24,6 +24,10 @@ export class ListDemandeComponent {
     //this.demandes = this.demandeService.getDemandesRDV();
   }
 
+  ngOnDestroy() {
+    alert('ListDemandeComponent détruit');
+  }
+
   ngOnInit(): void {
     this.loadDemandes();
   }
@@ -31,13 +35,25 @@ export class ListDemandeComponent {
   private loadDemandes(): void {
     this.demandesResponse = this.demandeService.getDemandesRDV(this.filter);
   }
-  onFilterStatusChange(): void {
+  onFilterStatusAndSpecialiteChange(): void {
     this.loadDemandes();
   }
 
-  onFilterSpecialiteChange(): void {
+  onPageChange(page: number):void{
+    this.filter.page = page;
     this.loadDemandes();
   }
+
+  get inactivePrecedent():boolean
+  {
+    return !(this.demandesResponse != undefined && this.demandesResponse.currentPage > 1);
+  }
+  
+  get inactiveSuivant(): boolean
+  {
+    return !(this.demandesResponse != undefined && this.demandesResponse.currentPage < this.demandesResponse.totalPages);
+  }
+
 
 
 }
