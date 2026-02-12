@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
 import { DemandeService } from '../services/demande.service';
@@ -7,9 +7,11 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-demande',
+  standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './list-demande.component.html',
-  styleUrl: './list-demande.component.css'
+  styleUrl: './list-demande.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListDemandeComponent implements OnInit, OnDestroy {
   title: string = "Mes Rendez-vous";
