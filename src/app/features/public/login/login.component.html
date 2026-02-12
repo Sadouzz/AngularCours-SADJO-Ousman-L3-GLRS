@@ -9,17 +9,36 @@
             <div class="card-body p-4 p-md-5">
                 <h2 class="h4 fw-bold text-center mb-4">Se Connecter</h2>
 
-                <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+                <form #formCtrl="ngForm" (ngSubmit)="onLogin(formCtrl)">
                     <div class="mb-4">
                         <label for="email" class="form-label fw-semibold">Adresse Email</label>
-                        <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="votre@email.com"
-                            required [(ngModel)]="userLogin.email">
+                        <input type="email" class="form-control form-control-lg" id="email" name="email"
+                            placeholder="votre@email.com" required [(ngModel)]="userLogin.email" #loginCtrl="ngModel"
+                            [ngClass]="{
+                                'is-invalid': isFieldInvalid('email', formCtrl),
+                                'is-valid': !isFieldInvalid('email', formCtrl)
+                            }">
+                        @if (isFieldInvalid('email', formCtrl)) {
+                        @if (loginCtrl.errors?.['required']) {
+                        <div class="text-danger small mt-1">Le login est requis.</div>
+                        }
+                        }
                     </div>
-                
+
                     <div class="mb-4">
                         <label for="password" class="form-label fw-semibold">Mot de Passe</label>
                         <input type="password" class="form-control form-control-lg" id="password" name="password"
-                            placeholder="Votre mot de passe" required [(ngModel)]="userLogin.password">
+                            placeholder="Votre mot de passe" required minlength="6" [(ngModel)]="userLogin.password"
+                            #passwordCtrl="ngModel"
+                            [class.is-invalid]="isFieldInvalid('password', formCtrl)">
+                        @if (isFieldInvalid('password', formCtrl)) {
+                        @if (passwordCtrl.errors?.['required']) {
+                        <div class="text-danger small mt-1">Le password est requis.</div>
+                        }
+                        @if (passwordCtrl.errors?.['minlength']) {
+                        <div class="text-danger small mt-1">Le password 6 caractères requis requis.</div>
+                        }
+                        }
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -32,7 +51,8 @@
                         <a href="#" class="text-decoration-none text-secondary">Mot de passe oublié ?</a>
                     </div>
 
-                    <button type="submit" class="btn btn-secondary btn-lg w-100 mb-3 rounded-0">Se Connecter</button>
+                    <button type="submit" class="btn btn-secondary btn-lg w-100 mb-3 rounded-0"
+                        [disabled]="formCtrl.invalid">Se Connecter</button>
                 </form>
             </div>
         </div>
