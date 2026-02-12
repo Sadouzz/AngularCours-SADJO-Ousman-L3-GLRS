@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './layouts/private/footer/footer.component';
-import { Observable, Subscriber, Subscription } from 'rxjs';
+import { concatMap, delay, Observable, of, Subscriber, Subscription } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -10,30 +10,27 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnDestroy, OnInit {
+export class AppComponent implements OnInit {
   title = 'project';
   helloObservable$?: Observable<string>;
   // subscriber = function(subsriber:Subscriber<string>){
 
   // }
   constructor() {
-    this.helloObservable$ = new Observable<string>((subscriber: Subscriber<string>) => {
-      const message = 'Hello, Angular!';
-      for (let i = 0; i < message.length; i++) {
-        setTimeout(() => {
-          subscriber.next(message[i]);
-        }, 1000 * (i + 1));
-      }
-      setInterval(() => { subscriber.complete() }, 1000 * (message.length + 1));
-    });
 
   }
 
   ngOnInit(): void {
-
+    this.helloObservable$ = of('H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'n', 'g', 'u', 'l', 'a', 'r', '!').pipe(
+      concatMap(letter => of(letter).pipe(delay(1000)))
+    );
   }
 
-  ngOnDestroy(): void {
-
-  }
+  // ngOnInit(): void {
+  //   this.helloObservable$ = from('Hello, Angular!').pipe(
+  //     concatMap(letter =>
+  //       of(letter).pipe(delay(300))
+  //     )
+  //   );
+  // }
 }
