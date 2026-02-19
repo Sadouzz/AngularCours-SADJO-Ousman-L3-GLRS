@@ -6,31 +6,11 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [AsyncPipe, /*RouterOutlet, FooterComponent*/],
+  imports: [RouterOutlet, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
   title = 'project';
-  helloObservable$?: Observable<string>;
-  // subscriber = function(subsriber:Subscriber<string>){
-
-  // }
-  constructor() {
-
-  }
-
-  ngOnInit(): void {
-    this.helloObservable$ = of('H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'n', 'g', 'u', 'l', 'a', 'r', '!').pipe(
-      concatMap(letter => of(letter).pipe(delay(1000)))
-    );
-  }
-
-  // ngOnInit(): void {
-  //   this.helloObservable$ = from('Hello, Angular!').pipe(
-  //     concatMap(letter =>
-  //       of(letter).pipe(delay(300))
-  //     )
-  //   );
-  // }
+  
 }

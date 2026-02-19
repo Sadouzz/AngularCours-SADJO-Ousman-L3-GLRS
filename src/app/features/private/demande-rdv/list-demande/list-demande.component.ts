@@ -4,6 +4,9 @@ import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } fro
 import { DemandeService } from '../services/demande.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DemandeMockService } from '../services/demande.mock.service';
+import { errorContext } from 'rxjs/internal/util/errorContext';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list-demande',
@@ -17,17 +20,19 @@ export class ListDemandeComponent implements OnInit, OnDestroy {
   title: string = "Mes Rendez-vous";
 
   demandesResponse?: DemandeListeResponse;
+  private subscription?: Subscription;
   filter: DemandeRDVFilterModel = {
     specialite: '',
     statut: 'En attente'
   }
 
-  constructor(private demandeService: DemandeService) {
+  constructor(private demandeService: DemandeMockService) {
     //this.demandes = this.demandeService.getDemandesRDV();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     alert('ListDemandeComponent détruit');
+    this.subscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -35,24 +40,32 @@ export class ListDemandeComponent implements OnInit, OnDestroy {
   }
 
   private loadDemandes(): void {
-    this.demandesResponse = this.demandeService.getDemandesRDV(this.filter);
+    this.subscription = this.demandeService.getDemandesRDV(this.filter).subscribe({
+      next: (response: DemandeListeResponse) => {
+        this.demandesResponse = response
+      },
+      error: (error) => {
+        console.error('Erreur:', error)
+      },
+      complete: () => {
+        console.log('Complete')
+      }
+    });
   }
   onFilterStatusAndSpecialiteChange(): void {
     this.loadDemandes();
   }
 
-  onPageChange(page: number):void{
+  onPageChange(page: number): void {
     this.filter.page = page;
     this.loadDemandes();
   }
 
-  get inactivePrecedent():boolean
-  {
+  get inactivePrecedent(): boolean {
     return !(this.demandesResponse != undefined && this.demandesResponse.currentPage > 1);
   }
-  
-  get inactiveSuivant(): boolean
-  {
+
+  get inactiveSuivant(): boolean {
     return !(this.demandesResponse != undefined && this.demandesResponse.currentPage < this.demandesResponse.totalPages);
   }
 
