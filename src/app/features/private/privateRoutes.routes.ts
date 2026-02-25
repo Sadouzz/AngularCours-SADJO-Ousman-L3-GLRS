@@ -1,17 +1,11 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from '../private/dashboard/dashboard.component';
-import { FormDemandeComponent } from '../private/form-demande/form-demande.component';
-import { ListDemandeComponent } from '../private/demande-rdv/list-demande/list-demande.component';
-import { DetailConsultationComponent } from '../private/patient/detail-consultation/detail-consultation.component';
-import { DossierMedicalComponent } from '../private/patient/dossier-medical/dossier-medical.component';
-import { DetailRdvComponent } from '../private/rdv/detail-rdv/detail-rdv.component';
 import { PrivateComponent } from '../private/private.component';
 import { isConnectGuard } from '../../core/guards/is-connect.guard';
 
 export const privateRoutes: Routes = [
     //private routes
     {
-        path: "private",
+        path: "",
         component: PrivateComponent,
         canActivate: [isConnectGuard],
         canActivateChild: [isConnectGuard],
@@ -23,27 +17,39 @@ export const privateRoutes: Routes = [
             },
             {
                 path: "dashboard",
-                component: DashboardComponent
+                loadComponent: () =>
+                    import('../private/dashboard/dashboard.component')
+                        .then(c => c.DashboardComponent)
             },
             {
                 path: "create-demande",
-                component: FormDemandeComponent
+                loadComponent: () =>
+                    import('../private/form-demande/form-demande.component')
+                        .then(c => c.FormDemandeComponent)
             },
             {
                 path: "mes-rdv",
-                component: ListDemandeComponent
+                loadComponent: () =>
+                    import('../private/demande-rdv/list-demande/list-demande.component')
+                        .then(c => c.ListDemandeComponent)
             },
             {
                 path: "detail-rdv/:id",
-                component: DetailRdvComponent
+                loadComponent: () =>
+                    import('../private/rdv/detail-rdv/detail-rdv.component')
+                        .then(c => c.DetailRdvComponent)
             },
             {
                 path: "detail-consultation/:id",
-                component: DetailConsultationComponent
+                loadComponent: () =>
+                    import('../private/patient/detail-consultation/detail-consultation.component')
+                        .then(c => c.DetailConsultationComponent)
             },
             {
                 path: "dossier-medical",
-                component: DossierMedicalComponent
+                loadComponent: () =>
+                    import('../private/patient/dossier-medical/dossier-medical.component')
+                        .then(c => c.DossierMedicalComponent)
             },
         ]
     }

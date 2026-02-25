@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserLoginRequest } from '../../../core/models/user.model';
 import { SecurityService } from '../../../core/services/security.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ISecurityService, SECURITY_SERVICE_TOKEN } from '../../../core/services/interfaces/security.interface.service';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,12 @@ export class LoginComponent {
     password: ''
   }
   errorMessage: string = '';
-  constructor(private securityService: SecurityService, private router: Router) {
+  constructor(@Inject(SECURITY_SERVICE_TOKEN) private securityService: ISecurityService, private router: Router) {
 
   }
 
   onLogin(formCtrl: NgForm): void {
-    if(formCtrl.invalid){
+    if (formCtrl.invalid) {
       this.errorMessage = 'Veuillez remplir correctement le form.';
       return;
     }
@@ -33,7 +34,7 @@ export class LoginComponent {
     }
   }
 
-  isFieldInvalid(fieldName: string, formCtrl: NgForm): boolean{
+  isFieldInvalid(fieldName: string, formCtrl: NgForm): boolean {
     const fieldCtrl = formCtrl?.controls[fieldName];
     return !!(fieldCtrl && fieldCtrl.invalid && (fieldCtrl.dirty || fieldCtrl.touched));
   }

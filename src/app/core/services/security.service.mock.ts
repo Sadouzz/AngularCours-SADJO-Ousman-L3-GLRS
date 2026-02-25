@@ -2,13 +2,21 @@ import { Injectable } from '@angular/core';
 import { UserLoginRequest, UserLoginResponse } from '../models/user.model';
 import { MOCK_USERS } from '@mocks';
 import { ISecurityService } from './interfaces/security.interface.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SecurityService implements ISecurityService {
+export class SecurityMockService implements ISecurityService {
   private readonly TOKEN_KEY = 'token'
   private readonly USER_KEY = 'current-user'
+
+  //Behaviour subject
+  private currentUserSubject = new BehaviorSubject<UserLoginResponse | null>(null);
+  public currentUser$: Observable<UserLoginResponse | null> = this.currentUserSubject.asObservable();
+
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+
   constructor() { }
 
   login(userLoginRequest: UserLoginRequest): UserLoginResponse | null {
@@ -20,6 +28,8 @@ export class SecurityService implements ISecurityService {
         user: user
       };
       this.saveLocalStorage(userLoginResponse)
+      this.currentUserSubject.next(userLoginResponse);
+      this.isAuthenticatedSubject.next(true);
       return userLoginResponse
     }
     return null;
@@ -31,22 +41,27 @@ export class SecurityService implements ISecurityService {
   }
 
   getCurrentUser(): UserLoginResponse | null {
-    const userJson = localStorage.getItem(this.USER_KEY)
-    if (userJson) {
-      const user: UserLoginResponse = {
-        user: JSON.parse(userJson)
-      }
-      return user;
-    }
-    return null;
+
+    return this.currentUserSubject.getValue()
+
+    // const userJson = localStorage.getItem(this.USER_KEY)
+    // if (userJson) {
+    //   const user: UserLoginResponse = {
+    //     user: JSON.parse(userJson)
+    //   }
+    //   return user;
+    // }
+    // return null;
   }
 
   isAuthenticated(): boolean {
-    return localStorage.getItem(this.TOKEN_KEY) !== null;
+    return this.isAuthenticatedSubject.getValue()
   }
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
+    // this.currentUserSubject.next(null);
+    // this.isAuthenticatedSubject.next(false);
   }
 }

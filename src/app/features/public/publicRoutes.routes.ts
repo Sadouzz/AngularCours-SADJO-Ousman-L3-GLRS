@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from '../public/login/login.component';
-import { PatientComponent } from '../public/patient/patient.component';
 import { PublicComponent } from '../public/public.component';
 
 export const publicRoutes: Routes = [
     {
-        path: "public",
+        path: "",
         component: PublicComponent,
         children: [
             {
@@ -15,22 +13,26 @@ export const publicRoutes: Routes = [
             },
             {
                 path: "login",
-                component: LoginComponent
+                loadComponent: () =>
+                    import('./login/login.component')
+                        .then(c => c.LoginComponent)
             },
             {
                 path: "create-patient",
-                component: PatientComponent
+                loadComponent: () =>
+                    import('./patient/patient.component')
+                        .then(c => c.PatientComponent)
             },
 
         ]
     },
-    {
-        path: "",
-        redirectTo: "/public",
-        pathMatch: "full"
-    },
-    {
-        path: "**",
-        redirectTo: "/public/login"
-    }
+    // {
+    //     path: "",
+    //     redirectTo: "/public",
+    //     pathMatch: "full"
+    // },
+    // {
+    //     path: "**",
+    //     redirectTo: "/public/login"
+    // }
 ];

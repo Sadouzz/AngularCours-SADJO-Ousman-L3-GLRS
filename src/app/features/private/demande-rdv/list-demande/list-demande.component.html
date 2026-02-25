@@ -156,11 +156,7 @@
                         @empty{
                         <tr>
                             <td colspan="5" class="text-center">
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>Pas de demandes disponibles</strong>
-                                </div>
-
-
+                                <app-alert [message]="'Pas de demandes disponibles'"></app-alert>
                             </td>
                         </tr>
                         }
@@ -172,7 +168,8 @@
                 <nav aria-label="Navigation des demandes">
                     <ul class="pagination justify-content-center mb-0">
                         <li class="page-item" [class.disabled]="inactivePrecedent">
-                            <a class="page-link" (click)="onPageChange(demandesResponse.currentPage - 1)" aria-label="Précédent">
+                            <a class="page-link" (click)="onPageChange(demandesResponse.currentPage - 1)"
+                                aria-label="Précédent">
                                 <span aria-hidden="true">&laquo; Précédent</span>
                             </a>
                         </li>
@@ -181,7 +178,8 @@
                                 class="page-link" (click)="onPageChange(indexPage)">{{indexPage}}</a></li>
                         }
                         <li class="page-item" [class.disabled]="inactiveSuivant">
-                            <a class="page-link" (click)="onPageChange(demandesResponse.currentPage + 1)" aria-label="Suivant">
+                            <a class="page-link" (click)="onPageChange(demandesResponse.currentPage + 1)"
+                                aria-label="Suivant">
                                 <span aria-hidden="true">Suivant &raquo;</span>
                             </a>
                         </li>
@@ -190,9 +188,7 @@
             </div>
             }
             @else{
-            <div class="alert alert-danger" role="alert">
-                <strong>Pas de demandes disponibles</strong>
-            </div>
+            <app-alert [message]="'Pas de demandes disponibles'"></app-alert>
             }
         </div>
 
