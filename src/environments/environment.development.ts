@@ -1,4 +1,4 @@
-export const environment = {
+export const environmentDev = {
     production: false,
     limit: 5
 };

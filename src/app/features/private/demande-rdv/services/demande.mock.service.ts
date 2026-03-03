@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MOCK_DEMANDES } from '@mocks';
-import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
-import { environment } from '../../../../../environments/environment.development';
-import { DemandeServiceInterface } from './interfaces/demande.interface.service';
+import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '@private/models';
+import { environmentDev } from '@environments';
+import { DemandeServiceInterface } from '@private/demande/services/interfaces';
 import { delay, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class DemandeMockService implements DemandeServiceInterface {
             demandes = demandes.filter(d => d.specialite === filter.specialite);
         }
         const page = filter.page || 1;
-        const size = filter.size || environment.limit || 5;
+        const size = filter.size || environmentDev.limit || 5;
 
 
         const startIndex = (page - 1) * size;

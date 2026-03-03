@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MOCK_DEMANDES } from '@mocks';
-import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
-import { environment } from '../../../../../environments/environment.development';
+import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '@private/models';
+import { environmentDev } from '@environments';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class DemandeService {
       demandes = demandes.filter(d => d.specialite === filter.specialite);
     }
     const page = filter.page || 1;
-    const size = filter.size || environment.limit || 5;
+    const size = filter.size || environmentDev.limit || 5;
 
 
     const startIndex = (page - 1) * size;

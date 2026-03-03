@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { UserLoginRequest, UserLoginResponse } from '../models/user.model';
+import { UserLoginRequest, UserLoginResponse } from '@core/models';
 import { MOCK_USERS } from '@mocks';
-import { ISecurityService } from './interfaces/security.interface.service';
+import { ISecurityService } from '@core/services/interfaces';
 
 @Injectable({
   providedIn: 'root'

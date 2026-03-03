@@ -1,7 +1,7 @@
 import { ResolveFn } from '@angular/router';
-import { DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
+import { DemandeListeResponse, DemandeRDVFilterModel } from '@private/models';
 import { inject } from '@angular/core';
-import { DEMANDE_SERVICE_TOKEN } from '../services/interfaces/demande.interface.service';
+import { DEMANDE_SERVICE_TOKEN } from '@private/demande/services/interfaces';
 import { Observable } from 'rxjs';
 
 export const demandeResolver: ResolveFn<DemandeListeResponse | undefined> = (route, state) => {

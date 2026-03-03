@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { SecurityService } from '../services/security.service';
+import { SecurityService } from '@core/services';
 
 export const isConnectGuard: CanActivateFn = (route, state) => {
   let securityService: SecurityService = inject(SecurityService);

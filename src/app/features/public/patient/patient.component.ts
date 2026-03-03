@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { PatientRequest } from '../../../core/models/patient.model';
+import { PatientRequest } from '@core/models';
 import { CommonModule } from '@angular/common';
-import { PatientService } from '../../../core/services/patient.service';
+import { PatientService } from '@core/services';
 
 @Component({
   selector: 'app-patient',

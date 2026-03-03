@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { SecurityService } from '../../../core/services/security.service';
-import { ISecurityService, SECURITY_SERVICE_TOKEN } from '../../../core/services/interfaces/security.interface.service';
-import { UserLoginResponse } from '../../../core/models/user.model';
+import { SecurityService } from '@core/services';
+import { ISecurityService, SECURITY_SERVICE_TOKEN } from '@core/services/interfaces';
+import { UserLoginResponse } from '@core/models';
 
 @Component({
   selector: 'app-header-private',

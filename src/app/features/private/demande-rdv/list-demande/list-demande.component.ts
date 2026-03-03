@@ -1,16 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
-import { DemandeService } from '../services/demande.service';
+import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '@private/models';
+import { DemandeService, DemandeMockService } from '@private/demande/services';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DemandeMockService } from '../services/demande.mock.service';
 import { errorContext } from 'rxjs/internal/util/errorContext';
 import { Observable, Subscription } from 'rxjs';
-import { AlertComponent } from '../../../../shared/components/alert/alert.component';
-import { BadgeComponent } from '../../../../shared/components/badge/badge.component';
-import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
-import { DEMANDE_SERVICE_TOKEN } from '../services/interfaces/demande.interface.service';
+import { AlertComponent, BadgeComponent, PaginationComponent } from '@shared/components';
+import { DEMANDE_SERVICE_TOKEN } from '@private/demande/services/interfaces';
 
 @Component({
   selector: 'app-list-demande',

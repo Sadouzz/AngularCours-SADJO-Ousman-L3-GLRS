@@ -1,5 +1,5 @@
 import { InjectionToken } from "@angular/core";
-import { UserLoginRequest, UserLoginResponse } from "../../models/user.model";
+import { UserLoginRequest, UserLoginResponse } from "@core/models";
 
 export interface ISecurityService {
     login(userLoginRequest: UserLoginRequest): UserLoginResponse | null;

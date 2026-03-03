@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { DemandeListeResponse, DemandeRDVFilterModel } from "../../../models/demande.model";
+import { DemandeListeResponse, DemandeRDVFilterModel } from "@private/models";
 import { Inject, InjectionToken } from "@angular/core";
 
 export interface DemandeServiceInterface{

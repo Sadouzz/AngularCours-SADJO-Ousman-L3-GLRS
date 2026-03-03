@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PatientRequest } from '../models/patient.model';
+import { PatientRequest } from '@core/models';
 import { MOCK_PATIENTS } from '@mocks';
 
 @Injectable({

@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { UserLoginRequest } from '../../../core/models/user.model';
-import { SecurityService } from '../../../core/services/security.service';
+import { UserLoginRequest } from '@core/models';
+import { SecurityService } from '@core/services';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ISecurityService, SECURITY_SERVICE_TOKEN } from '../../../core/services/interfaces/security.interface.service';
+import { ISecurityService, SECURITY_SERVICE_TOKEN } from '@core/services/interfaces';
 
 @Component({
   selector: 'app-login',
