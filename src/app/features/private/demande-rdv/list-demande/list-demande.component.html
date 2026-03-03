@@ -139,11 +139,8 @@
                                     }
                                 }
                             </td> -->
-                            <td [ngSwitch]="demande.statut">
-                                <span *ngSwitchCase="'Acceptée'" class="badge bg-success">Acceptée</span>
-                                <span *ngSwitchCase="'En attente'" class="badge bg-warning">En attente</span>
-                                <span *ngSwitchCase="'Refusée'" class="badge bg-danger">Refusée</span>
-                                <span *ngSwitchDefault class="badge bg-secondary">Inconnu</span>
+                            <td>
+                                <app-badge [statut]="demande.statut"></app-badge>
                             </td>
 
                             <td>

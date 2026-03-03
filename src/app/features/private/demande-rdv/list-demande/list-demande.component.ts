@@ -9,11 +9,12 @@ import { errorContext } from 'rxjs/internal/util/errorContext';
 import { Observable, Subscription } from 'rxjs';
 import { DEMANDE_SERVICE_TOKEN, DemandeServiceInterface } from '../services/interfaces/demande.interface.service';
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
+import { BadgeComponent } from '../../../../shared/components/badge/badge.component';
 
 @Component({
   selector: 'app-list-demande',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, AlertComponent],
+  imports: [CommonModule, RouterModule, FormsModule, AlertComponent, BadgeComponent],
   templateUrl: './list-demande.component.html',
   styleUrl: './list-demande.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
