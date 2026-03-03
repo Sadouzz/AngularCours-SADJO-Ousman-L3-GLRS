@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PrivateComponent } from '../private/private.component';
 import { isConnectGuard } from '../../core/guards/is-connect.guard';
+import { demandeResolver } from './demande-rdv/resolver/demande.resolver';
 
 export const privateRoutes: Routes = [
     //private routes
@@ -31,7 +32,10 @@ export const privateRoutes: Routes = [
                 path: "mes-rdv",
                 loadComponent: () =>
                     import('../private/demande-rdv/list-demande/list-demande.component')
-                        .then(c => c.ListDemandeComponent)
+                        .then(c => c.ListDemandeComponent),
+                resolve: {
+                    demandes: demandeResolver
+                }
             },
             {
                 path: "detail-rdv/:id",

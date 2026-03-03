@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, OnDestroy, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DemandeListeRDVModel, DemandeListeResponse, DemandeRDVFilterModel } from '../../models/demande.model';
 import { DemandeService } from '../services/demande.service';
 import { FormsModule } from '@angular/forms';
@@ -7,14 +7,15 @@ import { CommonModule } from '@angular/common';
 import { DemandeMockService } from '../services/demande.mock.service';
 import { errorContext } from 'rxjs/internal/util/errorContext';
 import { Observable, Subscription } from 'rxjs';
-import { DEMANDE_SERVICE_TOKEN, DemandeServiceInterface } from '../services/interfaces/demande.interface.service';
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
 import { BadgeComponent } from '../../../../shared/components/badge/badge.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { DEMANDE_SERVICE_TOKEN } from '../services/interfaces/demande.interface.service';
 
 @Component({
   selector: 'app-list-demande',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, AlertComponent, BadgeComponent],
+  imports: [CommonModule, RouterModule, FormsModule, AlertComponent, BadgeComponent, PaginationComponent],
   templateUrl: './list-demande.component.html',
   styleUrl: './list-demande.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -29,8 +30,7 @@ export class ListDemandeComponent implements OnInit, OnDestroy {
     statut: 'En attente'
   }
 
-  constructor(@Inject(DEMANDE_SERVICE_TOKEN) private demandeService: DemandeServiceInterface, private cd: ChangeDetectorRef) {
-    //this.demandes = this.demandeService.getDemandesRDV();
+  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
@@ -43,17 +43,15 @@ export class ListDemandeComponent implements OnInit, OnDestroy {
   }
 
   private loadDemandes(): void {
-    let demandes$: Observable<DemandeListeResponse> = this.demandeService.getDemandesRDV(this.filter);
-    demandes$.subscribe({
-      next: (data: DemandeListeResponse) => {
-        this.demandesResponse = data
-        this.cd.markForCheck();
+    //this.demandesResponse = this.route.snapshot.data['demandes'];
+    this.subscription = this.route.data.subscribe({
+      next: (data) => {
+        this.demandesResponse = data['demandes'] as DemandeListeResponse;
+        console.log("Data from resolver:", this.demandesResponse);
+        this.cdr.markForCheck();
       },
       error: (error) => {
-        console.error('Erreur:', error)
-      },
-      complete: () => {
-        console.log('Complete')
+        console.log("Error fething data from resolver:", error)
       }
     })
   }
